@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class Options : MonoBehaviour
 {
     private GameObject ayarlar;
+    public GameObject exit;
     public GameObject CanvasSahne;
     public Toggle MusicToggle;
-    private bool durum;
 
     
     void Start()
@@ -19,18 +19,26 @@ public class Options : MonoBehaviour
     void Loader()
     {
         CanvasSahne.SetActive(true);
-        
-        
+       
+    }
+    public void Quit()
+    {
+        CanvasSahne.SetActive(false);
     }
     public void ButtonClick()
     {
         if (MusicToggle.isOn)
         {
             AudioListener.volume = 1;
+            
         }
-        else
+        if (!MusicToggle.isOn)
         {
             AudioListener.volume = 0;
         }
+    }
+    private void Update()
+    {
+        
     }
 }
