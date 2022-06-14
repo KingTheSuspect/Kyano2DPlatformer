@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Giris.unity
+    guid: 5047d36844256e54dac546e0eaba4850
+  - enabled: 1
+    path: Assets/Scenes/Bolumler.unity
+    guid: c006debd892b19c4eb470ef082f51f50
+  - enabled: 1
     path: Assets/Scenes/Level1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   m_configObjects: {}
