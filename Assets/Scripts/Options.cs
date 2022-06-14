@@ -8,23 +8,23 @@ public class Options : MonoBehaviour
     private GameObject ayarlar;
     public GameObject CanvasSahne;
     public Toggle MusicToggle;
-    private bool OnOff = false;
+    private bool durum;
+
     
     void Start()
     {
         ayarlar = GameObject.Find("Ayarlar");
         ayarlar.GetComponent<Button>().onClick.AddListener(Loader);
-        
     }
     void Loader()
     {
         CanvasSahne.SetActive(true);
         
+        
     }
-    private void Update()
+    public void ButtonClick()
     {
-        OnOff = MusicToggle.isOn;
-        if (OnOff == true)
+        if (MusicToggle.isOn)
         {
             AudioListener.volume = 1;
         }
