@@ -34,6 +34,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (DialogueManager.GetInstance().isDialoguePlaying)
+        {
+            return;
+        }
         rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, rb.velocity.y);
 
         
