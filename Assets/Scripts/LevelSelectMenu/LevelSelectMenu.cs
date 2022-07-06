@@ -43,7 +43,6 @@ public class LevelSelectMenu : MonoBehaviour
 	{
 		Load();
 		SetThis();
-		SetOtherButtons();
 	}
 
 	public void SetThis()
@@ -54,6 +53,7 @@ public class LevelSelectMenu : MonoBehaviour
 		{
 			SetLevelButtonNumber(button);
 		}
+		SetOtherButtons();
 	}
 
 	void FixedUpdate()
