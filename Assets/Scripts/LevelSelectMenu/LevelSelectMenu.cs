@@ -202,21 +202,16 @@ public class LevelSelectMenu : MonoBehaviour
 
 	public void Save()
 	{
-		SaveData data = new SaveData(lastLevelPassed);
-		SaveLoadSystem.Save(data);
+		PlayerPrefs.SetInt("LastLevelPassed", lastLevelPassed);
 	}
 
 	public void Load()
 	{
-		SaveData data = SaveLoadSystem.Load();
-		if (data == null)
-		{
-			Save();
-			Load();
-		}
-		else
-		{
-			lastLevelPassed = data.lastLevelPassed;
-		}
+		lastLevelPassed = PlayerPrefs.GetInt("LastLevelPassed");
+	}
+
+	private void OnApplicationQuit()
+	{
+		Save();
 	}
 }
