@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
         //Þu an keycode alýyor sadece, daha sonradan burayý düzelteceðim.
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && jumpCount <= 1)
+        if (Input.GetKeyDown(KeyCode.W) && jumpCount <= 1)
         {
                 rb.velocity = new Vector2(rb.velocity.x, speed);
                 jumpCount++;
