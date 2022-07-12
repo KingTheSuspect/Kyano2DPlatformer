@@ -5,12 +5,19 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public int sceneid;
-    
-    public void LoadScene()
-    {
-        SceneManager.LoadScene(sceneid); 
-        
-    }
+	public static SceneLoader instance;
 
+	public int currentChapter;
+
+	void Awake()
+	{
+		instance = this;
+	}
+
+	public void LoadScene(int _buttonIndex)
+	{
+		int scene = (currentChapter - 1) * 5 + _buttonIndex;
+		Debug.Log($"{scene}");
+		//SceneManager.LoadScene(scene); 
+	}
 }
