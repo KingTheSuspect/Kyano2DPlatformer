@@ -471,6 +471,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NormalMap: {fileID: 547819387}
   EvilMap: {fileID: 148639135}
+  maxDistanceFromPlayer: 10
   index: 0
 --- !u!1 &148639135
 GameObject:
