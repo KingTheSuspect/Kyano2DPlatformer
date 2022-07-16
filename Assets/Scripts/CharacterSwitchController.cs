@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,20 +8,30 @@ public class CharacterSwitchController : MonoBehaviour
     private GameObject player;
     private GameObject evilPlayer;
     private GameObject mainCamera;
+    public GameObject chain;
 
     public GameObject NormalMap;
     public GameObject EvilMap;
     public float maxDistanceFromPlayer;
+    public Transform[] chainPoints;
+
 
     [HideInInspector]
     public int index = 0; // 0 --> normal mod, 1 --> evil mod
+
+
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        
     }
+
+   
+
     private void Update()
     {
+
         if (index == 0)
         {
             NormalMap.SetActive(true);
@@ -34,11 +45,14 @@ public class CharacterSwitchController : MonoBehaviour
 
         if (evilPlayer)
         {
+            chainPoints[0] = player.transform;
+            chainPoints[1] = evilPlayer.transform;
             EvilPlayerMovementRestriction();
             Debug.Log(Vector3.Distance(evilPlayer.transform.position, player.transform.position));
         }
 
     }
+
     public void SwitchCharacter()
     {
         if (index == 0)
@@ -50,7 +64,8 @@ public class CharacterSwitchController : MonoBehaviour
             player.GetComponent<PlayerController>().enabled = false;
             player.GetComponent<BoxCollider2D>().isTrigger = true;
             player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
-
+            chain.SetActive(true);
+            chain.GetComponent<ChainRender>().SetUpLine(chainPoints);
 
             index = 1;
         }
@@ -62,6 +77,7 @@ public class CharacterSwitchController : MonoBehaviour
             player.GetComponent<PlayerController>().enabled = true;
             player.GetComponent<BoxCollider2D>().isTrigger = false;
             player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+            chain.SetActive(false);
             index = 0;
         }
        
