@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8c72036fffe38684596258aab6628ee8
+guid: 6c86aacf233bf8541a58304874f924d2
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -100,110 +100,80 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Button0
+      name: UIBarFrame_0
       rect:
         serializedVersion: 2
-        x: 23
+        x: 0
         y: 0
-        width: 24
-        height: 24
+        width: 2
+        height: 11
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 281c96a8cbfb7b94590a0875fa423988
-      internalID: 250889488
+      spriteID: 3929052137a500245b1bf240d83f6873
+      internalID: -965608448
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Button1
+      name: UIBarFrame_1
       rect:
         serializedVersion: 2
-        x: 50
+        x: 2
         y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a3c67c4a649e6844cb3e75b587299115
-      internalID: 871512512
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Button2
-      rect:
-        serializedVersion: 2
-        x: 77
-        y: 0
-        width: 24
-        height: 24
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfc9d11ccc9fe3449ac7f479c68d0286
-      internalID: -485886198
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bar_BG
-      rect:
-        serializedVersion: 2
-        x: 69
-        y: 40
         width: 30
         height: 11
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a55ed350cf47e043a4bec08a77f39fe
-      internalID: 192762188
+      spriteID: 179d8d5ad7e241449927783962d2147c
+      internalID: 144885411
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Bar_FG
+      name: UIBarFrame_2
       rect:
         serializedVersion: 2
-        x: 69
-        y: 53
-        width: 30
+        x: 32
+        y: 0
+        width: 2
         height: 11
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db6e7c8b24b332045b7d5621898fc973
-      internalID: 1519409466
+      spriteID: c6c8db2755f88bf4b962e206c7c2971e
+      internalID: 403014346
       vertices: []
       indices: 
       edges: []
@@ -219,11 +189,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Button0: 250889488
-      Button1: 871512512
-      Bar_BG: 192762188
-      Bar_FG: 1519409466
-      Button2: -485886198
+      UIBarFrame_2: 403014346
+      UIBarFrame_0: -965608448
+      UIBarFrame_1: 144885411
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

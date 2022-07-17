@@ -5,16 +5,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class LevelButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class LevelButton : MonoBehaviour//, IPointerDownHandler, IPointerUpHandler
 {
 	private int number;
 	private TextMeshProUGUI tmp;
-	private Button button;
+	//private Button button;
 
 	void Awake()
 	{
 		tmp = transform.GetChild(0).GetComponent<TextMeshProUGUI>();
-		button = GetComponent<Button>();
+		//button = GetComponent<Button>();
 
 		number = int.Parse(tmp.text);
 	}
@@ -44,25 +44,35 @@ public class LevelButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
 	void SetTexture()
 	{
-		var spriteState = button.spriteState;
+		//var spriteState = button.spriteState;
 		int chapter = LevelSelectMenu.instance.GetCurrentChapter() - 1;
 		var textures = LevelSelectMenu.instance.textures;
-
+		
 		GetComponent<Image>().sprite = textures.defaultTextures[chapter];
-		spriteState.highlightedSprite = textures.defaultTextures[chapter];
-		spriteState.selectedSprite = textures.defaultTextures[chapter];
-		spriteState.pressedSprite = textures.pressedTextures[chapter];
-		spriteState.disabledSprite = textures.disabledTextures[chapter];
-
-		button.spriteState = spriteState;
+		//spriteState.highlightedSprite = textures.defaultTextures[chapter];
+		//spriteState.selectedSprite = textures.defaultTextures[chapter];
+		//spriteState.pressedSprite = textures.pressedTextures[chapter];
+		//spriteState.disabledSprite = textures.disabledTextures[chapter];
+		
+		//button.spriteState = spriteState;
 	}
 
 	void SetState()
 	{
-		button.interactable = number <= LevelSelectMenu.instance.GetLastLevelPassed() + 1;
+		int chapter = LevelSelectMenu.instance.GetCurrentChapter() - 1;
+		var textures = LevelSelectMenu.instance.textures;
+		if (number <= LevelSelectMenu.instance.GetLastLevelPassed() + 1)
+		{
+			GetComponent<Image>().sprite = textures.defaultTextures[chapter];
+		}
+		else
+		{
+			GetComponent<Image>().sprite = textures.disabledTextures[chapter];
+		}
+		//button.interactable = number <= LevelSelectMenu.instance.GetLastLevelPassed() + 1;
 	}
 
-	public void OnPointerDown(PointerEventData eventData)
+	/*public void OnPointerDown(PointerEventData eventData)
 	{
 		if (Input.GetMouseButtonDown(0)) transform.GetChild(0).localPosition = Vector3.down * 3f;
 	}
@@ -70,5 +80,5 @@ public class LevelButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	public void OnPointerUp(PointerEventData eventData)
 	{
 		if (Input.GetMouseButtonUp(0)) transform.GetChild(0).localPosition = Vector3.up * 3.2f;
-	}
+	}*/
 }

@@ -9,6 +9,7 @@ public class LevelSelectMenu : MonoBehaviour
 	[SerializeField]
 	private int lastLevelPassed;
 	private int currentChapter;
+	private int currentLevel;
 
 	[SerializeField]
 	private float slideTimer = 1;
@@ -22,6 +23,9 @@ public class LevelSelectMenu : MonoBehaviour
 	[SerializeField] GameObject PrevButton;
 	[SerializeField] GameObject NextButton;
 	[SerializeField] GameObject[] DeactivateButtonsWhenSlide;
+
+	[SerializeField] Transform Frame;
+	[SerializeField] LevelProgressBar Bar;
 
 	public LevelButtonTextures textures;
 
@@ -47,7 +51,11 @@ public class LevelSelectMenu : MonoBehaviour
 
 	public void SetThis()
 	{
-		SetCurrentChapter(lastLevelPassed / 5 + 1);
+		int _lastLevelPassed = Mathf.Clamp(lastLevelPassed, 0, 14);
+		Bar.SetBar(lastLevelPassed, 15);
+		SetCurrentChapter(_lastLevelPassed / 5 + 1);
+		SetCurrentLevel(_lastLevelPassed % 5 + 1);
+		SetFramePosition();
 		GetButtonPositions();
 		foreach (LevelButton button in LevelButtons)
 		{
@@ -86,21 +94,37 @@ public class LevelSelectMenu : MonoBehaviour
 
 	public void PreviousChapter()
 	{
-		if (currentChapter > 1)
+		if (currentChapter > 1 || currentLevel > 1)
 		{
-			SlideStart();
-			state = State.Prev;
-			SetCurrentChapter(currentChapter - 1);
+			currentLevel--;
+			if (currentLevel < 1)
+			{
+				currentLevel = 5;
+				SlideStart();
+				state = State.Prev;
+				SetCurrentChapter(currentChapter - 1);
+				DeactivateFrame();
+			}
+			SetCurrentLevel(currentLevel);
+			SetFramePosition();
 		}
 	}
 
 	public void NextChapter()
 	{
-		if (currentChapter < chapterCount)
+		if (currentChapter < chapterCount || currentLevel < 5)
 		{
-			SlideStart();
-			state = State.Next;
-			SetCurrentChapter(currentChapter + 1);
+			currentLevel++;
+			if (currentLevel > 5)
+			{
+				currentLevel = 1;
+				SlideStart();
+				state = State.Next;
+				SetCurrentChapter(currentChapter + 1);
+				DeactivateFrame();
+			}
+			SetCurrentLevel(currentLevel);
+			SetFramePosition();
 		}
 	}
 
@@ -138,6 +162,16 @@ public class LevelSelectMenu : MonoBehaviour
 	#endregion
 
 	#region ButtonFunctions
+	void DeactivateFrame()
+	{
+		Frame.gameObject.SetActive(false);
+	}
+
+	void SetFramePosition()
+	{
+		Frame.position = LevelButtons[currentLevel - 1].transform.position;
+	}
+
 	void GetButtonPositions()
 	{
 		LevelButtonPositions = new float[LevelButtons.Length];
@@ -163,8 +197,8 @@ public class LevelSelectMenu : MonoBehaviour
 		{
 			button.SetActive(true);
 		}
-		if (currentChapter <= 1) PrevButton.SetActive(false);
-		if (currentChapter >= chapterCount) NextButton.SetActive(false);
+		//if (currentChapter <= 1) PrevButton.SetActive(false);
+		//if (currentChapter >= chapterCount) NextButton.SetActive(false);
 	}
 
 	void SetLevelButtonNumber(LevelButton _button)
@@ -187,6 +221,17 @@ public class LevelSelectMenu : MonoBehaviour
 	{
 		currentChapter = _value;
 		SceneLoader.instance.currentChapter = currentChapter;
+	}
+
+	public int GetCurrentLevel()
+	{
+		return currentLevel;
+	}
+
+	public void SetCurrentLevel(int _value)
+	{
+		currentLevel = _value;
+		SceneLoader.instance.currentLevel = currentLevel;
 	}
 
 	public int GetLastLevelPassed()
