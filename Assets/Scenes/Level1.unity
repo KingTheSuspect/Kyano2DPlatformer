@@ -769,7 +769,7 @@ GameObject:
   - component: {fileID: 374423480}
   - component: {fileID: 374423479}
   - component: {fileID: 374423481}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tilemap
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -8176,8 +8176,8 @@ Rigidbody2D:
   m_GravityScale: 4
   m_Material: {fileID: 0}
   m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_SleepingMode: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &1939609337
 BoxCollider2D:
@@ -8287,6 +8287,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   isGrounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  checkDistance: 1
 --- !u!1 &1999805226
 GameObject:
   m_ObjectHideFlags: 0
