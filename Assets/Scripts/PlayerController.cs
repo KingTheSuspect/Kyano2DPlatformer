@@ -1,26 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    //Double jump, ground check'i tüm yüzeylerinden alýyor. Sadece alt taraftan almasýný saðlayacaðým.
-
-
-
     private Rigidbody2D rb;
 
     [SerializeField] float speed;
 
-    int jumpCount = 0;
-    
-    
+    int jumpCount = 2;
+
+    [HideInInspector] public static bool isJumping;
+
+    private bool canDoubleJump = false;
     
     //Ground check deðerleri (Sadece aþaðýyý kontrol ediyor)
     public bool isGrounded;
     public LayerMask groundLayer;
-    private float checkDistance = 0.515f;
+    [SerializeField]private float checkDistance = 0.515f;
+    [SerializeField] private Transform playerFeet;
     private void Awake()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -38,28 +37,44 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if(OnDialogue) return;
         GroundCheck();
-        if (DialogueManager.GetInstance().isDialoguePlaying)
-        {
-            return;
-        }
+        Move();
+        Jump();
+    }
+    protected void Move()
+    {
         rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, rb.velocity.y);
-        //Þu an keycode alýyor sadece, daha sonradan burayý düzelteceðim.
-            if (Input.GetKeyDown(KeyCode.W) && jumpCount <= 1)
+    }
+
+    private bool OnDialogue => DialogueManager.GetInstance().isDialoguePlaying;
+    
+    private void Jump()
+    {
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
         {
-                rb.velocity = new Vector2(rb.velocity.x, speed);
-                jumpCount++;
+            canDoubleJump = true;
+            jump();
+        }
+        else if (Input.GetKeyDown(KeyCode.W) && canDoubleJump)
+        {
+            canDoubleJump = false;
+            jump();
+        }
+        void jump()
+        {
+            isJumping = true;
+            rb.velocity = new Vector2(rb.velocity.y, speed);
         }
     }
 
     private void GroundCheck()
     {
-        //Aþaðýya raycast gonderip belirlediðimiz mesafe ve yönde ground layer mask var mý diye kontrol ediyoruz
-        var hit = Physics2D.Raycast(transform.position, Vector2.down, checkDistance, groundLayer);
-        // *hit boolean bir deðiþken olarak kullanýlabilir
+        var hit = Physics2D.Raycast(playerFeet.position, Vector2.down, checkDistance, groundLayer);
         if (hit)
         {
-            jumpCount = 0;
+            isJumping = false;
+            canDoubleJump = true;
             isGrounded = true;
         }
         else isGrounded = false;
