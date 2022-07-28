@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CharacterSwitchController : MonoBehaviour
 {
+    public static CharacterSwitchController instance;
+
     private GameObject player;
     private GameObject evilPlayer;
     private GameObject mainCamera;
@@ -22,6 +24,8 @@ public class CharacterSwitchController : MonoBehaviour
 
     private void Start()
     {
+        instance = this;
+
         player = GameObject.FindGameObjectWithTag("Player");
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         
