@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -14,14 +15,16 @@ public class PlayerController : MonoBehaviour
 
 	private bool _canDoubleJump = false;
 	
+	[SerializeField] private float respawnTime;
+	[SerializeField] private Vector3 startPosition;
+	public static bool canMove = true;
+	
 	//Ground check deðerleri (Sadece aþaðýyý kontrol ediyor)
 	public bool isGrounded;
 	public LayerMask groundLayer;
 	[SerializeField]private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
-	[SerializeField] private float respawnTime;
-	[SerializeField] private Vector3 startPosition;
-
+	
 
 	
 	private void Awake()
@@ -43,6 +46,7 @@ public class PlayerController : MonoBehaviour
 	}
 	protected void Move()
 	{
+		if (!canMove) return;
 		_rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, _rb.velocity.y);
 	}
 
@@ -50,9 +54,9 @@ public class PlayerController : MonoBehaviour
 	
 	private void Jump()
 	{
+		if (!canMove) return;
 		if (Input.GetKeyDown(KeyCode.W) && isGrounded)
 		{
-			Debug.Log("jump");
 			_canDoubleJump = true;
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
@@ -74,7 +78,7 @@ public class PlayerController : MonoBehaviour
 		//Debug.Log(isGrounded);
 	}
 
-	public void Respawn()
+	IEnumerator Respawn()
 	{
 		/*if (haveSwitchController)
 		{
@@ -85,26 +89,30 @@ public class PlayerController : MonoBehaviour
 		_rb.velocity = Vector2.zero;
 		transform.position = startPosition;*/
 		Scene scene = SceneManager.GetActiveScene();
+		canMove = false;
 		Initiate.Fade(scene.name, Color.black, respawnTime);
+		yield return new WaitForSeconds(.1f);
+		canMove = true;
 	}
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.CompareTag("Spike"))
-		{
-			Respawn();
-		}
-		if (collision.CompareTag("Spring"))
-		{
-			var spring = collision.GetComponent<SpringData>();
-			_rb.velocity = new Vector2(_rb.velocity.x, speed * spring.GetPower());
-		}
+		
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		if (collision.gameObject.CompareTag("Spring"))
+		{
+			var spring = collision.gameObject.GetComponent<SpringData>();
+			_rb.velocity = new Vector2(_rb.velocity.x, speed * spring.GetPower());
+		}
 		if (collision.gameObject.CompareTag("MovingPlatform"))
 		{
 			transform.SetParent(collision.transform);
+		}
+		if (collision.gameObject.CompareTag("Spike"))
+		{
+			StartCoroutine(Respawn());
 		}
 	}
 
