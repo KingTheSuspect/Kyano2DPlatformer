@@ -55079,6 +55079,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 6404346531203382841, guid: 0e15e6ceb5c546045bf868038e246d54, type: 3}
+      propertyPath: respawnTime
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404346531203382841, guid: 0e15e6ceb5c546045bf868038e246d54, type: 3}
       propertyPath: startPosition.x
       value: -6.3968124
       objectReference: {fileID: 0}

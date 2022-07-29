@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -18,11 +19,11 @@ public class PlayerController : MonoBehaviour
 	public LayerMask groundLayer;
 	[SerializeField]private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
-	[SerializeField] private bool haveSwitchController;
+	[SerializeField] private float respawnTime;
 	[SerializeField] private Vector3 startPosition;
 
 
-	private Vector3 playerScale;
+	
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody2D>();
@@ -30,7 +31,6 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
-		playerScale = transform.localScale;
 		startPosition = transform.position;
 	}
 
@@ -76,26 +76,23 @@ public class PlayerController : MonoBehaviour
 
 	public void Respawn()
 	{
-		if (haveSwitchController)
+		/*if (haveSwitchController)
 		{
 			var switchController = CharacterSwitchController.instance;
 			switchController.index = 1;
 			switchController.SwitchCharacter();
 		}
 		_rb.velocity = Vector2.zero;
-		transform.position = startPosition;
+		transform.position = startPosition;*/
+		Scene scene = SceneManager.GetActiveScene();
+		Initiate.Fade(scene.name, Color.black, respawnTime);
 	}
-
-	void OnTriggerStay2D(Collider2D collision)
+	void OnTriggerEnter2D(Collider2D collision)
 	{
 		if (collision.CompareTag("Spike"))
 		{
 			Respawn();
 		}
-	}
-
-	void OnTriggerEnter2D(Collider2D collision)
-	{
 		if (collision.CompareTag("Spring"))
 		{
 			var spring = collision.GetComponent<SpringData>();
