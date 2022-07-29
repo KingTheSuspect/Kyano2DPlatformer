@@ -78,12 +78,23 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentStory.canContinue)
         {
-            dialogueText.text = currentStory.Continue();
+            //dialogueText.text = currentStory.Continue();
+            StartCoroutine(WriteDialogue());
             DisplayChoices();
         }
         else
         {
             StartCoroutine(ExitDialogue());
+        }
+    }
+
+    private IEnumerator WriteDialogue()
+    {
+        dialogueText.text = string.Empty;
+        foreach (var letter in currentStory.Continue().ToCharArray())
+        {
+            dialogueText.text += letter;
+            yield return new WaitForEndOfFrame();
         }
     }
     private IEnumerator ExitDialogue()

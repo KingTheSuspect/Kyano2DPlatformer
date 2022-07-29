@@ -39,7 +39,6 @@ public class MovingPlatform : MonoBehaviour
 			directionMultiplier = -1;
 		}
 	}
-
 	public float GetSpeed()
 	{
 		return speed;

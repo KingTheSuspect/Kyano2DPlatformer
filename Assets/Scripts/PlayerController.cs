@@ -5,27 +5,25 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	private Rigidbody2D rb;
+	private Rigidbody2D _rb;
 
 	[SerializeField] float speed;
-
-	int jumpCount = 2;
-
+	
 	[HideInInspector] public static bool isJumping;
 
-	private bool canDoubleJump = false;
+	private bool _canDoubleJump = false;
 	
 	//Ground check deðerleri (Sadece aþaðýyý kontrol ediyor)
 	public bool isGrounded;
 	public LayerMask groundLayer;
 	[SerializeField]private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
-
-	[SerializeField] Vector3 startPosition;
+	[SerializeField] private bool haveSwitchController;
+	[SerializeField] private Vector3 startPosition;
 
 	private void Awake()
 	{
-		rb = GetComponent<Rigidbody2D>();
+		_rb = GetComponent<Rigidbody2D>();
 	}
 
 	private void Start()
@@ -42,7 +40,7 @@ public class PlayerController : MonoBehaviour
 	}
 	protected void Move()
 	{
-		rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, rb.velocity.y);
+		_rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, _rb.velocity.y);
 	}
 
 	private bool OnDialogue => DialogueManager.GetInstance().isDialoguePlaying;
@@ -51,18 +49,18 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.W) && isGrounded)
 		{
-			canDoubleJump = true;
+			_canDoubleJump = true;
 			jump();
 		}
-		else if (Input.GetKeyDown(KeyCode.W) && canDoubleJump)
+		else if (Input.GetKeyDown(KeyCode.W) && _canDoubleJump)
 		{
-			canDoubleJump = false;
+			_canDoubleJump = false;
 			jump();
 		}
 		void jump()
 		{
 			isJumping = true;
-			rb.velocity = new Vector2(rb.velocity.y, speed);
+			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
 	}
 
@@ -72,7 +70,7 @@ public class PlayerController : MonoBehaviour
 		if (hit)
 		{
 			isJumping = false;
-			canDoubleJump = true;
+			_canDoubleJump = true;
 			isGrounded = true;
 		}
 		else isGrounded = false;
@@ -81,11 +79,13 @@ public class PlayerController : MonoBehaviour
 
 	public void Respawn()
 	{
-		var switchController = CharacterSwitchController.instance;
-		switchController.index = 1;
-		switchController.SwitchCharacter();
-
-		rb.velocity = Vector2.zero;
+		if (haveSwitchController)
+		{
+			var switchController = CharacterSwitchController.instance;
+			switchController.index = 1;
+			switchController.SwitchCharacter();
+		}
+		_rb.velocity = Vector2.zero;
 		transform.position = startPosition;
 	}
 
@@ -102,7 +102,7 @@ public class PlayerController : MonoBehaviour
 		if (collision.CompareTag("Spring"))
 		{
 			var spring = collision.GetComponent<SpringData>();
-			rb.velocity = new Vector2(rb.velocity.x, speed * spring.GetPower());
+			_rb.velocity = new Vector2(_rb.velocity.x, speed * spring.GetPower());
 		}
 	}
 
