@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] private bool haveSwitchController;
 	[SerializeField] private Vector3 startPosition;
 
+
+	private Vector3 playerScale;
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody2D>();
@@ -28,6 +30,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
+		playerScale = transform.localScale;
 		startPosition = transform.position;
 	}
 
@@ -49,28 +52,22 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.W) && isGrounded)
 		{
+			Debug.Log("jump");
 			_canDoubleJump = true;
-			jump();
+			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
 		else if (Input.GetKeyDown(KeyCode.W) && _canDoubleJump)
 		{
 			_canDoubleJump = false;
-			jump();
-		}
-		void jump()
-		{
-			isJumping = true;
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
 	}
-
 	private void GroundCheck()
 	{
 		var hit = Physics2D.Raycast(playerFeet.position, Vector2.down, checkDistance, groundLayer);
 		if (hit)
 		{
 			isJumping = false;
-			_canDoubleJump = true;
 			isGrounded = true;
 		}
 		else isGrounded = false;
