@@ -103,6 +103,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (collision.gameObject.CompareTag("Spring"))
 		{
+			collision.gameObject.GetComponent<Animator>().SetTrigger("Bounce");
 			var spring = collision.gameObject.GetComponent<SpringData>();
 			_rb.velocity = new Vector2(_rb.velocity.x, speed * spring.GetPower());
 		}
