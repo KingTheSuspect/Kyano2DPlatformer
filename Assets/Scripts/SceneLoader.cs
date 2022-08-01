@@ -21,7 +21,7 @@ public class SceneLoader : MonoBehaviour
 		if (scene <= LevelSelectMenu.instance.GetLastLevelPassed() + 1)
 		{
 			Debug.Log($"{scene}");
-			//SceneManager.LoadScene(scene); 
+			SceneManager.LoadScene(scene); 
 		}
 		else
 		{
