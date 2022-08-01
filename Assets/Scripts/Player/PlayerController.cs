@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -15,13 +16,11 @@ public class PlayerController : MonoBehaviour
 
 	private bool _canDoubleJump = false;
 	
-	[SerializeField] private float respawnTime;
-	[SerializeField] private Vector3 startPosition;
 	public static bool canMove = true;
 	
-	//Ground check deðerleri (Sadece aþaðýyý kontrol ediyor)
+	//Ground check deï¿½erleri (Sadece aï¿½aï¿½ï¿½yï¿½ kontrol ediyor)
 	public bool isGrounded;
-	public LayerMask groundLayer;
+	[SerializeField] public LayerMask[] groundLayers;
 	[SerializeField]private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
 	
@@ -34,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
 	private void Start()
 	{
-		startPosition = transform.position;
+		canMove = true;
 	}
 
 	private void Update()
@@ -68,14 +67,17 @@ public class PlayerController : MonoBehaviour
 	}
 	private void GroundCheck()
 	{
-		var hit = Physics2D.Raycast(playerFeet.position, Vector2.down, checkDistance, groundLayer);
-		if (hit)
+		foreach (var layer in groundLayers)
 		{
-			isJumping = false;
-			isGrounded = true;
+			var hit = Physics2D.Raycast(playerFeet.position, Vector2.down, checkDistance, layer);
+			if (hit)
+			{
+				isJumping = false;
+				isGrounded = true;
+				return;
+			}
+			else isGrounded = false;
 		}
-		else isGrounded = false;
-		//Debug.Log(isGrounded);
 	}
 
 	IEnumerator Respawn()
@@ -90,13 +92,17 @@ public class PlayerController : MonoBehaviour
 		transform.position = startPosition;*/
 		Scene scene = SceneManager.GetActiveScene();
 		canMove = false;
-		Initiate.Fade(scene.name, Color.black, respawnTime);
+		SceneManager.LoadScene(scene.name);
 		yield return new WaitForSeconds(.1f);
 		canMove = true;
 	}
-	void OnTriggerEnter2D(Collider2D collision)
+
+	private void OnTriggerEnter2D(Collider2D col)
 	{
-		
+		if (col.gameObject.CompareTag("PlatformBottom"))
+		{
+			Physics2D.IgnoreLayerCollision(7,8,true);
+		}
 	}
 
 	private void OnCollisionEnter2D(Collision2D collision)
