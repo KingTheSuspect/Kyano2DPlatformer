@@ -54769,6 +54769,14 @@ PrefabInstance:
       propertyPath: startPosition.y
       value: -1.4810672
       objectReference: {fileID: 0}
+    - target: {fileID: 6404346531203382841, guid: 0e15e6ceb5c546045bf868038e246d54, type: 3}
+      propertyPath: groundLayers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404346531203382841, guid: 0e15e6ceb5c546045bf868038e246d54, type: 3}
+      propertyPath: groundLayers.Array.data[0].m_Bits
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 6404346531203382846, guid: 0e15e6ceb5c546045bf868038e246d54, type: 3}
       propertyPath: m_RootOrder
       value: 3

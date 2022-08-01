@@ -99,6 +99,7 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D col)
 	{
+		
 		if (col.gameObject.CompareTag("PlatformBottom"))
 		{
 			Physics2D.IgnoreLayerCollision(7,8,true);
@@ -107,6 +108,10 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
+		if (collision.gameObject.CompareTag("SpikeBall"))
+		{
+			StartCoroutine(Respawn());
+		}
 		if (collision.gameObject.CompareTag("Spring"))
 		{
 			collision.gameObject.GetComponent<Animator>().SetTrigger("Bounce");
