@@ -8,6 +8,9 @@ TagManager:
   - Spike
   - MovingPlatform
   - Spring
+  - PlatformBottom
+  - PlatformUp
+  - SpikeBall
   layers:
   - Default
   - TransparentFX
@@ -16,8 +19,8 @@ TagManager:
   - Water
   - UI
   - Ground
-  - 
-  - 
+  - Platform
+  - Player
   - 
   - 
   - 

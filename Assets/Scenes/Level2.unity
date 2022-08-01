@@ -5658,6 +5658,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   isGrounded: 0
+  groundLayers:
+  - serializedVersion: 2
+    m_Bits: 64
+  checkDistance: 0.515
+  playerFeet: {fileID: 0}
 --- !u!1 &1999805226
 GameObject:
   m_ObjectHideFlags: 0
