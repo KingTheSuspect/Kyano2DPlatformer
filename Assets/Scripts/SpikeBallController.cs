@@ -19,11 +19,11 @@ public class SpikeBallController : MonoBehaviour
         DirectionCheck();
         if (movingClockWise)
         {
-            transform.Rotate(0,0, speed);
+            transform.Rotate(0,0, speed * Time.deltaTime);
         }
         else
         {
-            transform.Rotate(0,0, -speed);
+            transform.Rotate(0,0, -speed * Time.deltaTime);
         }
     }
 
