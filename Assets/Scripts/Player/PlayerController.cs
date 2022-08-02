@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
 				isGrounded = true;
 				return;
 			}
-			else isGrounded = false;
+			isGrounded = false;
 		}
 	}
 
