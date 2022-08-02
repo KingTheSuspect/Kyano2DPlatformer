@@ -23,9 +23,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] public LayerMask[] groundLayers;
 	[SerializeField]private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
-	
 
-	
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody2D>();
@@ -40,9 +38,15 @@ public class PlayerController : MonoBehaviour
 	{
 		if(OnDialogue) return;
 		GroundCheck();
-		Move();
 		Jump();
 	}
+
+	private void FixedUpdate()
+	{
+		if (OnDialogue) return;
+		Move();
+	}
+
 	protected void Move()
 	{
 		if (!canMove) return;
