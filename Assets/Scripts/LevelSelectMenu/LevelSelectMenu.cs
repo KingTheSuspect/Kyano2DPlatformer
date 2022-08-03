@@ -52,6 +52,7 @@ public class LevelSelectMenu : MonoBehaviour
 	public void SetThis()
 	{
 		int _lastLevelPassed = Mathf.Clamp(lastLevelPassed, 0, 14);
+		lastLevelPassed = 4;
 		Bar.SetBar(lastLevelPassed, 15);
 		SetCurrentChapter(_lastLevelPassed / 5 + 1);
 		SetCurrentLevel(_lastLevelPassed % 5 + 1);

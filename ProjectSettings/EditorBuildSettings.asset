@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelDeneme2.unity
     guid: 87fe3cc1850d1b24b8456c70b68c4579
+  - enabled: 1
+    path: Assets/Scenes/LevelDeneme3.unity
+    guid: 5b5b1b9c82021b945889a0cb27d01675
   m_configObjects: {}

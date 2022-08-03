@@ -5,6 +5,7 @@ using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,7 +39,6 @@ public class PlayerController : MonoBehaviour
 	{
 		if(OnDialogue) return;
 		GroundCheck();
-		Debug.Log(isGrounded);
 		Jump();
 	}
 	private void FixedUpdate()
