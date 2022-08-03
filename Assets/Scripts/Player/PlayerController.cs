@@ -38,9 +38,9 @@ public class PlayerController : MonoBehaviour
 	{
 		if(OnDialogue) return;
 		GroundCheck();
+		Debug.Log(isGrounded);
 		Jump();
 	}
-
 	private void FixedUpdate()
 	{
 		if (OnDialogue) return;
