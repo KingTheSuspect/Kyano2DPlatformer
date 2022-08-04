@@ -13,18 +13,17 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField] float speed;
 	
-	[HideInInspector] public static bool isJumping;
+	private bool _isJumping;
 
 	private bool _canDoubleJump = false;
 	
 	public static bool canMove = true;
 	
-	//Ground check de�erleri (Sadece a�a��y� kontrol ediyor)
 	public bool isGrounded;
 	[SerializeField] public LayerMask[] groundLayers;
-	[SerializeField]private float checkDistance = 0.515f;
+	[SerializeField] private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
-
+	
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody2D>();
@@ -41,13 +40,14 @@ public class PlayerController : MonoBehaviour
 		GroundCheck();
 		Jump();
 	}
+	
 	private void FixedUpdate()
 	{
 		if (OnDialogue) return;
 		Move();
 	}
 
-	protected void Move()
+	private void Move()
 	{
 		if (!canMove) return;
 		_rb.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, _rb.velocity.y);
@@ -60,11 +60,13 @@ public class PlayerController : MonoBehaviour
 		if (!canMove) return;
 		if (Input.GetKeyDown(KeyCode.W) && isGrounded)
 		{
+			_isJumping = true;
 			_canDoubleJump = true;
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
-		else if (Input.GetKeyDown(KeyCode.W) && _canDoubleJump)
+		else if (Input.GetKeyDown(KeyCode.W) && (_canDoubleJump || (!_isJumping && !isGrounded)))
 		{
+			_isJumping = true;
 			_canDoubleJump = false;
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
@@ -76,7 +78,6 @@ public class PlayerController : MonoBehaviour
 			var hit = Physics2D.Raycast(playerFeet.position, Vector2.down, checkDistance, layer);
 			if (hit)
 			{
-				isJumping = false;
 				isGrounded = true;
 				return;
 			}
@@ -100,16 +101,7 @@ public class PlayerController : MonoBehaviour
 		yield return new WaitForSeconds(.1f);
 		canMove = true;
 	}
-
-	private void OnTriggerEnter2D(Collider2D col)
-	{
-		
-		if (col.gameObject.CompareTag("PlatformBottom"))
-		{
-			Physics2D.IgnoreLayerCollision(7,8,true);
-		}
-	}
-
+	
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("SpikeBall"))
@@ -131,7 +123,7 @@ public class PlayerController : MonoBehaviour
 			StartCoroutine(Respawn());
 		}
 	}
-
+	
 	private void OnCollisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("MovingPlatform"))
