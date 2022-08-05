@@ -1,29 +1,24 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class PlayerController : MonoBehaviour
 {
 	private Rigidbody2D _rb;
 
 	[SerializeField] float speed;
-	
+
 	private bool _isJumping;
 
 	private bool _canDoubleJump = false;
-	
+
 	public static bool canMove = true;
-	
+
 	public bool isGrounded;
 	[SerializeField] public LayerMask[] groundLayers;
 	[SerializeField] private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
-	
+
 	private void Awake()
 	{
 		_rb = GetComponent<Rigidbody2D>();
@@ -36,11 +31,11 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
-		if(OnDialogue) return;
+		if (OnDialogue) return;
 		GroundCheck();
 		Jump();
 	}
-	
+
 	private void FixedUpdate()
 	{
 		if (OnDialogue) return;
@@ -54,7 +49,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	private bool OnDialogue => DialogueManager.GetInstance().isDialoguePlaying;
-	
+
 	private void Jump()
 	{
 		if (!canMove) return;
@@ -71,6 +66,7 @@ public class PlayerController : MonoBehaviour
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
 	}
+
 	private void GroundCheck()
 	{
 		foreach (var layer in groundLayers)
@@ -81,6 +77,7 @@ public class PlayerController : MonoBehaviour
 				isGrounded = true;
 				return;
 			}
+
 			isGrounded = false;
 		}
 	}
@@ -101,34 +98,75 @@ public class PlayerController : MonoBehaviour
 		yield return new WaitForSeconds(.1f);
 		canMove = true;
 	}
-	
+
+	#region  TriggersAndCollisions
+	private void OnTriggerEnter2D(Collider2D col)
+	{
+		if (col.gameObject.CompareTag("Button"))
+		{
+			col.gameObject.GetComponent<IButtonInteract>().Interact(true);
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D col)
+	{
+		if (col.gameObject.CompareTag("Button"))
+		{
+			col.gameObject.GetComponent<IButtonInteract>().Interact(false);
+		}
+	}
+
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("SpikeBall"))
 		{
 			StartCoroutine(Respawn());
 		}
+
 		if (collision.gameObject.CompareTag("Spring"))
 		{
 			collision.gameObject.GetComponent<Animator>().SetTrigger("Bounce");
 			var spring = collision.gameObject.GetComponent<SpringData>();
 			_rb.velocity = new Vector2(_rb.velocity.x, speed * spring.GetPower());
 		}
+
 		if (collision.gameObject.CompareTag("MovingPlatform"))
 		{
 			transform.SetParent(collision.transform);
 		}
+
+		if (collision.gameObject.CompareTag("MovingPlatforms"))
+		{
+			transform.SetParent(collision.transform);
+		}
+
 		if (collision.gameObject.CompareTag("Spike"))
 		{
 			StartCoroutine(Respawn());
 		}
+
+		if (collision.gameObject.CompareTag("Box"))
+		{
+			_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
+		}
 	}
-	
+
 	private void OnCollisionExit2D(Collision2D collision)
 	{
 		if (collision.gameObject.CompareTag("MovingPlatform"))
 		{
 			transform.SetParent(collision.transform.parent.parent);
 		}
+
+		if (collision.gameObject.CompareTag("MovingPlatforms"))
+		{
+			transform.SetParent(collision.transform.parent.parent.parent);
+		}
+		
+		if (collision.gameObject.CompareTag("Box"))
+		{
+			_rb.interpolation = RigidbodyInterpolation2D.None;
+		}
 	}
+	#endregion
 }

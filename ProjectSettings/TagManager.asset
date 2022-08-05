@@ -11,6 +11,9 @@ TagManager:
   - PlatformBottom
   - PlatformUp
   - SpikeBall
+  - Button
+  - MovingPlatforms
+  - Box
   layers:
   - Default
   - TransparentFX
