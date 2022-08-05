@@ -1,4 +1,6 @@
 using System.Collections;
+using DG.Tweening;
+using Unity.Mathematics;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -10,12 +12,12 @@ public class PlayerController : MonoBehaviour
 
 	private bool _isJumping;
 
-	private bool _canDoubleJump = false;
+	private bool _canDoubleJump;
 
 	public static bool canMove = true;
 
 	public bool isGrounded;
-	[SerializeField] public LayerMask[] groundLayers;
+	[SerializeField] public LayerMask groundLayers;
 	[SerializeField] private float checkDistance = 0.515f;
 	[SerializeField] private Transform playerFeet;
 
@@ -56,7 +58,7 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.W) && isGrounded)
 		{
 			_isJumping = true;
-			_canDoubleJump = true;
+			_canDoubleJump = true; 
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
 		else if (Input.GetKeyDown(KeyCode.W) && (_canDoubleJump || (!_isJumping && !isGrounded)))
@@ -66,20 +68,19 @@ public class PlayerController : MonoBehaviour
 			_rb.velocity = new Vector2(_rb.velocity.y, speed);
 		}
 	}
-
 	private void GroundCheck()
 	{
-		foreach (var layer in groundLayers)
+		float[] checkParts = new float[] { 0, .5f, -.5f };
+		for (int i = 0; i < 3; i++)
 		{
-			var hit = Physics2D.Raycast(playerFeet.position, Vector2.down, checkDistance, layer);
-			if (hit)
+			if (Physics2D.Raycast(playerFeet.position + new Vector3(checkParts[i],0,0), Vector2.down, checkDistance, groundLayers))
 			{
 				isGrounded = true;
 				return;
 			}
-
-			isGrounded = false;
 		}
+
+		isGrounded = false;
 	}
 
 	IEnumerator Respawn()
