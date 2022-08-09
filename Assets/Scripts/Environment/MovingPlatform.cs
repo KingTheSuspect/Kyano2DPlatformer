@@ -11,6 +11,9 @@ public class MovingPlatform : MonoBehaviour
 	[SerializeField] float speed;
 	[SerializeField] int directionMultiplier;
 
+	[Header("Optional:")]
+	[SerializeField] ButtonManager button;
+
 	void Start()
 	{
 		directionMultiplier = 1;
@@ -18,6 +21,7 @@ public class MovingPlatform : MonoBehaviour
 
 	void Update()
 	{
+		if (button == null || button.IsInteracted())
 		Move();
 		CheckDirection();
 	}

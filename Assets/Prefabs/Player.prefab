@@ -150,12 +150,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   isGrounded: 0
-  groundLayer:
+  groundLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   checkDistance: 0.6
   playerFeet: {fileID: 6404346532353558728}
-  startPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &6404346532353558729
 GameObject:
   m_ObjectHideFlags: 0
