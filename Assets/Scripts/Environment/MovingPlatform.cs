@@ -9,14 +9,14 @@ public class MovingPlatform : MonoBehaviour
 	[SerializeField] Transform borderRight;
 
 	[SerializeField] float speed;
-	[SerializeField] int directionMultiplier;
+	[SerializeField] int directionMultiplier = 1;
 
 	[Header("Optional:")]
 	[SerializeField] ButtonManager button;
 
 	void Start()
 	{
-		directionMultiplier = 1;
+		
 	}
 
 	void Update()

@@ -51,7 +51,8 @@ MonoBehaviour:
   borderLeft: {fileID: 6523560359640901486}
   borderRight: {fileID: 6523560358408143318}
   speed: 5
-  directionMultiplier: 0
+  directionMultiplier: 1
+  button: {fileID: 0}
 --- !u!1 &6523560358408143319
 GameObject:
   m_ObjectHideFlags: 0

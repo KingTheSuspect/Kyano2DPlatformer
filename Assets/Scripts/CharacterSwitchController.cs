@@ -64,7 +64,8 @@ public class CharacterSwitchController : MonoBehaviour
             //player.GetComponent<SpriteRenderer>().color = Color.red;
             evilPlayer = Instantiate(player);
             evilPlayer.GetComponent<SpriteRenderer>().color = Color.red;
-            mainCamera.GetComponent<CameraFollow>().target = evilPlayer.transform;
+			evilPlayer.GetComponent<PlayerController>().evil = true;
+			mainCamera.GetComponent<CameraFollow>().target = evilPlayer.transform;
             player.GetComponent<PlayerController>().enabled = false;
             player.GetComponent<BoxCollider2D>().isTrigger = true;
             player.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;

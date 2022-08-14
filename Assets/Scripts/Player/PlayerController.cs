@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	public bool evil;
+
 	private Rigidbody2D _rb;
 
 	[SerializeField] float speed;
@@ -119,9 +121,17 @@ public class PlayerController : MonoBehaviour
 
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (collision.gameObject.CompareTag("SpikeBall"))
+		if (!evil)
 		{
-			StartCoroutine(Respawn());
+			if (collision.gameObject.CompareTag("SpikeBall"))
+			{
+				StartCoroutine(Respawn());
+			}
+
+			if (collision.gameObject.CompareTag("Spike"))
+			{
+				StartCoroutine(Respawn());
+			}
 		}
 
 		if (collision.gameObject.CompareTag("Spring"))
@@ -129,6 +139,11 @@ public class PlayerController : MonoBehaviour
 			collision.gameObject.GetComponent<Animator>().SetTrigger("Bounce");
 			var spring = collision.gameObject.GetComponent<SpringData>();
 			_rb.velocity = new Vector2(_rb.velocity.x, speed * spring.GetPower());
+		}
+
+		if (collision.gameObject.CompareTag("Box"))
+		{
+			_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 		}
 
 		if (collision.gameObject.CompareTag("MovingPlatform"))
@@ -139,16 +154,6 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.CompareTag("MovingPlatforms"))
 		{
 			transform.SetParent(collision.transform);
-		}
-
-		if (collision.gameObject.CompareTag("Spike"))
-		{
-			StartCoroutine(Respawn());
-		}
-
-		if (collision.gameObject.CompareTag("Box"))
-		{
-			_rb.interpolation = RigidbodyInterpolation2D.Interpolate;
 		}
 	}
 

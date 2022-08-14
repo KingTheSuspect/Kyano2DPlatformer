@@ -8,7 +8,7 @@ public class MovingSpike : MonoBehaviour
     public GameObject platform;
     public Transform up, down;
     public float speed;
-    private float _direction = 1;
+    [SerializeField] private float _direction = 1;
     private void Update()
     {
         DirectionCheck();
