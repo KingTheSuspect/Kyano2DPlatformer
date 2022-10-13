@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 
 	public static bool canMove = true;
 
+	public Transform ownerObject;
+
 	public bool isGrounded;
 	[SerializeField] public LayerMask groundLayers;
 	[SerializeField] private float checkDistance = 0.515f;
@@ -109,6 +111,19 @@ public class PlayerController : MonoBehaviour
 		{
 			col.gameObject.GetComponent<IButtonInteract>().Interact(true);
 		}
+
+		if (col.gameObject.CompareTag("OwnerStarter"))
+		{
+			
+			GameObject.FindWithTag("MainCamera").GetComponent<CameraFollow>().target = ownerObject;
+		}
+
+		if (col.gameObject.CompareTag("Spike"))
+			{
+				StartCoroutine(Respawn());
+			}
+
+
 	}
 
 	private void OnTriggerExit2D(Collider2D col)
