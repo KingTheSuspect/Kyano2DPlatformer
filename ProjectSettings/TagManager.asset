@@ -17,6 +17,7 @@ TagManager:
   - OwnerStarter
   - Owner
   - PlatformDeleter
+  - PlayerBoxCol
   layers:
   - Default
   - TransparentFX

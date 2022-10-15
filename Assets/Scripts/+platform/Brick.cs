@@ -5,7 +5,6 @@ using UnityEngine;
 public class Brick : MonoBehaviour {
 
 	Rigidbody2D rb;
-	public int fallingTime;
 
 	// Use this for initialization
 	void Start () {
@@ -17,7 +16,7 @@ public class Brick : MonoBehaviour {
 		if (col.gameObject.name.Equals ("Player")) {
 			PlatformManager.Instance.StartCoroutine("SpawnPlatform",
 					new Vector2 (transform.position.x, transform.position.y));
-			Invoke ("DropPlatform", fallingTime);
+			Invoke ("DropPlatform", 0.8f);
 			DropPlatform();
 			Destroy (gameObject, 0.8f);
 		}

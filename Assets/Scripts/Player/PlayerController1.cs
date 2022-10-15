@@ -16,7 +16,7 @@ public class PlayerController1 : MonoBehaviour
     public Transform ownerObject;
 	private Rigidbody2D rb;
 
-    private bool facingRight = true;
+    public bool facingRight = true;
 
     private bool isGrounded;
     public Transform groundCheck;
@@ -179,7 +179,7 @@ public class PlayerController1 : MonoBehaviour
 	}
 	#endregion
 
-    void Flip() {
+    public void Flip() {
         facingRight = !facingRight;
         Vector3 Scaler = transform.localScale;
         Scaler.x *= -1;
